@@ -51,8 +51,112 @@ namespace UsabilityDynamics {
      * Class Initializer
      *
      * @author {%= author_name %}
+     * @since {%= version %}
      */
-    public function __construct() {}
+    public function __construct() {
+    
+      // Core Actions
+      add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
+      add_action( 'widgets_init', array( $this, 'widgets_init' ) );
+      add_action( 'template_redirect', array( $this, 'template_redirect' ) );
+      add_action( 'admin_init', array( $this, 'admin_init' ) );
+      add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+      add_action( 'init', array( $this, 'init' ), 100 );
+      add_action( 'wp_footer', array( $this, 'wp_footer' ) );
+      add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+      add_action( 'wp_head', array( $this, 'wp_head' ) );
+    
+    }
+    
+    /**
+     * Initial Theme Setup
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function after_setup_theme() {
+      
+    }
+    
+    /**
+     * Register Sidebars
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function widgets_init() {
+      
+    }
+    
+    /**
+     * Primary Frontend Hook
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function template_redirect() {
+
+    }
+    
+    /**
+     * Primary Admin Hook
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function admin_init() {
+      
+    }
+    
+    /**
+     * Primary Admin Hook
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function admin_menu() {
+      
+    }
+    
+    /**
+     * Primary Hook
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function init() {
+      
+    }
+    
+    /**
+     * Frontend Footer
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function wp_footer() {
+      
+    }
+    
+    /**
+     * Enqueue Frontend Scripts
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function wp_enqueue_scripts() {
+      
+    }
+    
+    /**
+     * Frontend Header
+     *
+     * @author {%= author_name %}
+     * @since {%= version %}
+     */
+    public function wp_head() {
+    
+    }
 
   }
 

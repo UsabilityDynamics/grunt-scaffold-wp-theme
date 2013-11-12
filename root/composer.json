@@ -16,5 +16,10 @@
     "type": "git",
     "url": "https://github.com/UsabilityDynamics/wpp-theme-{%= short_name %}.git"
   },
-  "require": {}
+  "require": {
+    "usabilitydynamics/settings": "*",
+    "usabilitydynamics/ui": "*",
+    "usabilitydynamics/utility": "*"
+    "usabilitydynamics/wpp-theme-lib": "*"
+  }
 }
