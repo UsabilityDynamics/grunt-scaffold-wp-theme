@@ -11,15 +11,14 @@
   },
   "license": "{%= license %}",
   "license_url": "{%= license_url %}",
-  "tags": [ "one-column", "two-column", "translation-ready", "responsive", "wp-property", "wordpress", "theme" ],
+  "tags": [ "one-column", "two-column", "translation-ready", "responsive", "wordpress", "theme" ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/UsabilityDynamics/wpp-theme-{%= short_name %}.git"
+    "url": "https://github.com/UsabilityDynamics/{%= short_name %}.git"
   },
   "require": {
     "usabilitydynamics/settings": "*",
     "usabilitydynamics/ui": "*",
     "usabilitydynamics/utility": "*"
-    "usabilitydynamics/wpp-theme-lib": "*"
   }
 }

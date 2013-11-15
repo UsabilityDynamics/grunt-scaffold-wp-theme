@@ -6,7 +6,7 @@
  */
 
 // Basic template description.
-exports.description = 'Create Wordpress Theme for WP-Property plugin.';
+exports.description = 'Create Wordpress Theme.';
 
 // Template-specific notes to be displayed before question prompts.
 exports.notes = '';
@@ -24,7 +24,7 @@ exports.template = function(grunt, init, done) {
 
     init.prompt( 'name' ),
     init.prompt( 'short_name' ),
-    init.prompt( 'description', 'Wordpress Theme designed for WP-Property plugin powered websites' ),
+    init.prompt( 'description', 'Wordpress Theme' ),
     init.prompt( 'version', '0.1.0' ),
     init.prompt( 'license', 'GPL-2.0' ),
     init.prompt( 'license_url', 'http://www.gnu.org/licenses/gpl-2.0.html' ),
@@ -64,20 +64,20 @@ exports.template = function(grunt, init, done) {
 
     props.repo = {
       type: 'git',
-      url: 'git@github.com:UsabilityDynamics/wpp-theme-' + props.short_name
+      url: 'git@github.com:UsabilityDynamics/' + props.short_name
     };
 
-    props.homepage = 'http://github.com/UsabilityDynamics/wpp-theme-' + props.short_name;
+    props.homepage = 'http://github.com/UsabilityDynamics/' + props.short_name;
 
-    props.bugs = 'http://github.com/UsabilityDynamics/wpp-theme-' + props.short_name + '/issues';
+    props.bugs = 'http://github.com/UsabilityDynamics/' + props.short_name + '/issues';
 
     props.copyright = "Copyright (c) 2013 Usability Dynamics, Inc.";
 
     var _files = init.filesToCopy( props );
+    
+    console.log( _files );
 
     init.copyAndProcess( _files , props );
-
-    init.addLicenseFiles( _files , props.license);
 
     init.writePackageJSON( 'package.json', props );
 

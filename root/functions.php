@@ -14,7 +14,7 @@ namespace UsabilityDynamics {
    *
    * @author {%= author_name %}
    */
-  final class {%= name %} {
+  final class {%= short_name %} {
 
     /**
      * Version of theme
@@ -161,6 +161,6 @@ namespace UsabilityDynamics {
   }
 
   // Instantiate
-  new {%= name %};
+  new {%= short_name %};
 
 }
