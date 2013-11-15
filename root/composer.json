@@ -16,9 +16,24 @@
     "type": "git",
     "url": "https://github.com/UsabilityDynamics/{%= short_name %}.git"
   },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:UsabilityDynamics/lib-settings.git",
+      "trunk-path": "trunk",
+      "branches-path": "branches",
+      "tags-path": "tags"
+    },
+    {
+      "type": "git",
+      "url": "git@github.com:UsabilityDynamics/lib-ui.git",
+      "trunk-path": "trunk",
+      "branches-path": "branches",
+      "tags-path": "tags"
+    }
+  ],
   "require": {
-    "usabilitydynamics/settings": "*",
-    "usabilitydynamics/ui": "*",
-    "usabilitydynamics/utility": "*"
+    "UsabilityDynamics/lib-settings": "*",
+    "UsabilityDynamics/lib-ui": "dev-master"
   }
 }
