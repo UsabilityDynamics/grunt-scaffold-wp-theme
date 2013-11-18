@@ -26,7 +26,21 @@ module.exports = function( grunt ) {
     },
     
     requirejs: {
-    
+      fooxbox: {
+        options: {
+          name: 'foobox',
+          paths: {
+            "foobox": "scripts/src/foobox.dev"
+          },
+          include: [ 'foobox' ],
+          out: 'scripts/utility/foobox.js',
+          skipModuleInsertion: true,
+          wrap: {
+            start: "define( function(require, exports, module) {",
+            end: "});"
+          }
+        }
+      }
     },
     
     // Documentation
@@ -52,7 +66,7 @@ module.exports = function( grunt ) {
           relativeUrls: true
         },
         files: {
-          'styles/app.css': [ 'styles/less/app.less' ]
+          'styles/app.css': [ 'styles/src/app.less' ]
         }
       },
       'app.dev.css': {
@@ -60,7 +74,7 @@ module.exports = function( grunt ) {
           relativeUrls: true
         },
         files: {
-          'styles/app.dev.css': [ 'styles/less/app.less' ]
+          'styles/app.dev.css': [ 'styles/src/app.less' ]
         }
       },
       'editor-style.dev.css': {
@@ -69,7 +83,7 @@ module.exports = function( grunt ) {
           relativeUrls: true
         },
         files: {
-          'styles/editor-style.dev.css': [ 'styles/less/editor-style.less' ]
+          'styles/editor-style.dev.css': [ 'styles/src/editor-style.less' ]
         }
       },
       'editor-style.css': {
@@ -78,7 +92,7 @@ module.exports = function( grunt ) {
           relativeUrls: true
         },
         files: {
-          'styles/editor-style.css': [ 'styles/less/editor-style.less' ]
+          'styles/editor-style.css': [ 'styles/src/editor-style.less' ]
         }
       }
     },
@@ -91,7 +105,7 @@ module.exports = function( grunt ) {
       },
       styles: {
         files: [
-          'gruntfile.js', 'styles/less/*.*'
+          'gruntfile.js', 'styles/src/*.*'
         ],
         tasks: [ 'less' ]
       },
