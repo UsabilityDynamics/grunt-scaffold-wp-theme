@@ -180,7 +180,14 @@ namespace UsabilityDynamics\Theme {
      * @since {%= version %}
      */
     public function init() {
+      // Register scripts
+      wp_register_script( $this->text_domain . '-require', get_stylesheet_directory_uri() . '/scripts/require.js', array(), $this->version, true );
       
+      // Register styles
+      wp_register_style( $this->text_domain . '-app', defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? get_stylesheet_directory_uri() . '/styles/app.dev.css' : get_stylesheet_directory_uri() . '/styles/app.css', array(), $this->version, 'all' );
+      
+      // Add custom editor styles
+      add_editor_style( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'styles/editor-style.dev.css' : 'styles/editor-style.css' );
     }
     
     /**
@@ -204,9 +211,9 @@ namespace UsabilityDynamics\Theme {
       // Add filter to fix the require.js script tag
       add_filter( 'clean_url', array( __CLASS__, 'fix_requirejs_script' ), 11, 1 );
       // Require will load app.js and other Require.js modules
-      wp_enqueue_script( 'require' );
+      wp_enqueue_script( $this->text_domain . '-require' );
       // Compiled styles which include Bootstrap and custom styles.
-      wp_enqueue_style( 'app' );
+      wp_enqueue_style( $this->text_domain . '-app' );
     
     }
     
@@ -218,14 +225,11 @@ namespace UsabilityDynamics\Theme {
      * @return string
      * @return string
      */
-    public function fix_requirejs_script() {
-
+    public function fix_requirejs_script( $url ) {
       if( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-        return strpos( $url, 'require.js' ) ? "$url' data-main='" . get_template_directory_uri() . "/scripts/app.dev.js" : $url;
+        return strpos( $url, 'require.js' ) !== false ? "$url' data-main='" . get_template_directory_uri() . "/scripts/app.dev.js" : $url;
       }
-
-      return strpos( $url, 'require.js' ) ? "$url' data-main='" . get_template_directory_uri() . "/scripts/app.js" : $url;
-      
+      return strpos( $url, 'require.js' ) !== false ? "$url' data-main='" . get_template_directory_uri() . "/scripts/app.js" : $url;
     }
     
     /**
