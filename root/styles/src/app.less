@@ -1,14 +1,22 @@
 // Application Styles
 //
-//
-// @author {%= author_name %}
 // @version {%= version %}
+// @author {%= author_name %}
 
-// Variables
+/*--------------------------------------------------------------
+We import bootstrap.less in order to take advantage of its classes and mixins.
+AFTER THAT we import the variables.less which is Bootstrap variables.less
+that we copied and altered in order to override the original variables and make our custom bootstrap skin.
+This way we leave Bootstrap unharmed.
+--------------------------------------------------------------*/
+@import "bootstrap/bootstrap.less";
+@import "variables.less";
 
-// Bootstrap
+// Theme specific
+@import "style.less";
 
-// Theme
+// Responsive
+@import "responsive.less"; 
 
 // Allow overrides in style.css
 // @import (less) "../../style.css";

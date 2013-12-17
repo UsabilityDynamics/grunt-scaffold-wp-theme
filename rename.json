@@ -1,3 +1,9 @@
 {
-
+  "templates/aside/property-featured-shortcode.php": false,
+  "templates/aside/property-overview.php": false,
+  "templates/aside/property-overview-my-feps.php": false,
+  "templates/aside/property-overview-plain_list.php": false,
+  "templates/aside/property-search-block.php": false,
+  "property.php": false,
+  "property-overview-page.php": false
 }

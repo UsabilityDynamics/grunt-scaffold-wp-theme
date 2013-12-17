@@ -19,7 +19,7 @@ module.exports = function( grunt ) {
           beautify: false
         },
         files: {
-          'scripts/app.js':     [ 'scripts/src/app.dev.js' ],
+          'scripts/app.js':     [ 'scripts/app.dev.js' ],
           'scripts/require.js': [ 'vendor/usabilitydynamics/lib-utility/scripts/require.js' ]
         }
       }
@@ -94,6 +94,17 @@ module.exports = function( grunt ) {
         files: {
           'styles/editor-style.css': [ 'styles/src/editor-style.less' ]
         }
+      }
+    },
+    
+    // Color Schemas
+    'color-default': {
+      options: {
+        yuicompress: true,
+        relativeUrls: true
+      },
+      files: {
+        'styles/default.css': [ 'styles/src/colors/default.less' ]
       }
     },
 
