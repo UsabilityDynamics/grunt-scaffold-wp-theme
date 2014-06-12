@@ -1,0 +1,19 @@
+
+
+{
+  "name": "scaffold-wp-theme",
+  "description": "-",
+  "version": "0.1.0",
+  "homepage": "https://github.com/UsabilityDynamics/scaffold-wp-theme",
+  "author": {
+    "name": "Andy Potanin",
+    "email": "andy.potanin@usabilitydynamics.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/UsabilityDynamics/scaffold-wp-theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/UsabilityDynamics/scaffold-wp-theme/issues"
+  }
+}
