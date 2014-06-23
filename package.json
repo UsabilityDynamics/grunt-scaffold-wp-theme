@@ -39,8 +39,7 @@
     "test": "mocha --ui exports --reporter list",
     "install": "grunt install",
     "start": "grunt --help",
-    "publish": "grunt publish",
-    "prepublish": "grunt prepublish"
+    "publish": "grunt publish"
   },
   "repository": {
     "type": "git",
