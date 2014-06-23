@@ -1,5 +1,5 @@
 {
-  "name": "scaffold-wp-theme",
+  "name": "grunt-scaffold-wp-theme",
   "version": "0.1.0",
   "description": "> Create a Node.js module with.",
   "main": "gruntfile.js",
@@ -31,9 +31,9 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-template": "^0.2.3",
     "mocha": "^1.20.1",
-    "should": "^4.0.4"
+    "should": "^4.0.4",
+    "grunt-scaffold-module": "git://github.com/UsabilityDynamics/grunt-scaffold-module"
   },
   "scripts": {
     "test": "mocha --ui exports --reporter list",
@@ -44,12 +44,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/UsabilityDynamics/scaffold-wp-theme.git"
+    "url": "https://github.com/UsabilityDynamics/grunt-scaffold-wp-theme.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/UsabilityDynamics/scaffold-wp-theme/issues"
+    "url": "https://github.com/UsabilityDynamics/grunt-scaffold-wp-theme/issues"
   },
-  "homepage": "https://github.com/UsabilityDynamics/scaffold-wp-theme"
+  "homepage": "https://github.com/UsabilityDynamics/grunt-scaffold-wp-theme"
 }
