@@ -7,6 +7,26 @@
  */
 module.exports = function( grunt ) {
 
+  // Require Utility Modules.
+  var joinPath  = require( 'path' ).join;
+  var findup    = require( 'findup-sync' );
+
+  // Determine Paths.
+  var _paths = {
+    composer: findup( 'composer.json' ),
+    phpcs: findup( 'vendor/bin/phpcs' ) || findup( 'phpcs', { cwd: '/usr/bin' } ),
+    vendor: findup( 'vendor' ),
+    jsTests: findup( 'test' ),
+    staticFiles: findup( 'static' )
+  };
+
+  // Automatically Load Tasks.
+  require( 'load-grunt-tasks' )( grunt, {
+    pattern: 'grunt-*',
+    config: './package.json',
+    scope: 'devDependencies'
+  });
+
   grunt.initConfig({
   
     // Load configuration about project
@@ -157,21 +177,6 @@ module.exports = function( grunt ) {
     }
 
   });
-  
-  // Load tasks
-  grunt.loadNpmTasks( 'grunt-component' );
-  grunt.loadNpmTasks( 'grunt-component-build' );
-  grunt.loadNpmTasks( 'grunt-markdown' );
-  grunt.loadNpmTasks( 'grunt-requirejs' );
-  grunt.loadNpmTasks( 'grunt-spritefiles' );
-  grunt.loadNpmTasks( 'grunt-contrib-symlink' );
-  grunt.loadNpmTasks( 'grunt-contrib-yuidoc' );
-  grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-  grunt.loadNpmTasks( 'grunt-contrib-watch' );
-  grunt.loadNpmTasks( 'grunt-contrib-less' );
-  //grunt.loadNpmTasks( 'grunt-contrib-concat' );
-  //grunt.loadNpmTasks( 'grunt-contrib-clean' );
-  //grunt.loadNpmTasks( 'grunt-shell' );
   
   // Build Assets
   grunt.registerTask( 'default', [ 'yuidoc', 'uglify', 'markdown', 'less', 'requirejs' ] );

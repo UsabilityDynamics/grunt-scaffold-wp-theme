@@ -2,87 +2,48 @@
  * Node.js Scaffolding Template
  *
  *
+ * @todo After scaffolding, run "npm install" automatically.
+ * @todo If GitHub repository given, attempt to create repository and commmit project after creation.
+ * @todo If GitHub repository was created, create Wiki and set up as subdmodule in static/wiki.
+ * 
  * @version 1.0.0
  */
+var deepExtend = require( 'deep-extend' );
+var options = {
+  type: 'module'
+};
 
-// Basic template description.
 exports.description = 'Create Wordpress Theme.';
-
-// Template-specific notes to be displayed before question prompts.
-exports.notes = '';
-
-// Template-specific notes to be displayed after question prompts.
-exports.after = '';
-
-// Any existing file or directory matching this wildcard will cause a warning.
-exports.warnOn = '*';
-
-// The actual init template.
 exports.template = function(grunt, init, done) {
 
-  init.process( {type: 'module'}, [
-
+  var prompts = [
     init.prompt( 'name' ),
-    init.prompt( 'short_name' ),
-    init.prompt( 'description', 'Wordpress Theme' ),
-    init.prompt( 'version', '0.1.0' ),
-    init.prompt( 'license', 'GPL-2.0' ),
-    init.prompt( 'license_url', 'http://www.gnu.org/licenses/gpl-2.0.html' ),
-    init.prompt( 'author_name', 'Usability Dynamics' ),
-    init.prompt( 'author_email', 'info@UsabilityDynamics.com' ),
-    init.prompt( 'author_url', 'http://UsabilityDynamics.com' ),
-    init.prompt( 'homepage', 'http://UsabilityDynamics.com' ),
-    init.prompt( 'copyright', '(c) 2013 Usability Dynamics, Inc.' ),
-    init.prompt( 'node_version', '>=0.10.21' )
+    init.prompt( 'repository' ),
+    init.prompt( 'version', '0.0.1' ),
+    init.prompt( 'description', 'WordPress theme.' )  
+  ];
 
-  ], function( err, props ) {
+  init.process( options, prompts, processCallback );
 
-    props.keywords = [ 'wordpress', 'theme', 'wp-property', 'responsive' ];
+  function processCallback( err, props ) {
+  
+    var _package = deepExtend( require( './root/package.json' ), props );
+    var _composer = deepExtend( require( './root/composer.json' ), {} );
 
-    props.dependencies = {};
+    // Copy Files.
+    init.copyAndProcess( init.filesToCopy( _package ), _package );
 
-    props.devDependencies = {
-      "grunt": "~0.4.1",
-      "grunt-contrib-symlink": "~0.2.0",
-      "grunt-contrib-requirejs": "*",
-      "grunt-contrib-yuidoc": "*",
-      "grunt-contrib-clean": "~0.5.0",
-      "grunt-contrib-jshint": "~0.6.4",
-      "grunt-contrib-uglify": "~0.2.4",
-      "grunt-contrib-watch": "~0.5.3",
-      "grunt-contrib-less": "~0.7.0",
-      "grunt-wp-version": "~0.1.0",
-      "grunt-markdown": "~0.4.0",
-      "grunt-requirejs": "*",
-      "grunt-phpdocumentor": "~0.1.0",
-      "grunt-spritefiles": "0.0.2",
-      "grunt-component-build": "~0.4.1",
-      "grunt-component": "~0.1.7",
-      "grunt-contrib-concat": "~0.3.0",
-      "grunt-shell": "~0.5.0"
-    };
+  	// Empty folders won't be copied over so make them here
+  	grunt.file.mkdir('test/');
+  	grunt.file.mkdir('vendor/libraries');
+  	grunt.file.mkdir('vendor/modules');
 
-    props.repo = {
-      type: 'git',
-      url: 'git@github.com:UsabilityDynamics/' + props.short_name
-    };
-
-    props.homepage = 'http://github.com/UsabilityDynamics/' + props.short_name;
-
-    props.bugs = 'http://github.com/UsabilityDynamics/' + props.short_name + '/issues';
-
-    props.copyright = "Copyright (c) 2013 Usability Dynamics, Inc.";
-
-    var _files = init.filesToCopy( props );
+    // Write Package to Disk.
+    init.writePackageJSON( 'package.json', _package );
     
-    console.log( _files );
-
-    init.copyAndProcess( _files , props );
-
-    init.writePackageJSON( 'package.json', props );
-
     done();
 
-  });
-
+  }
+  
 };
+
