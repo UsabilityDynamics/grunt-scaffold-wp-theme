@@ -22,7 +22,7 @@
     "audit": {}
   },
   "bin": {
-    "scaffold-wp-theme": "bin/scaffold-wp-theme"
+    "scaffold-wp-theme": "bin/scaffold-wp-theme.js"
   },
   "directories": {
     "bin": "./bin"

@@ -38,7 +38,8 @@
 26 verbose linkBins scaffold-wp-theme@0.1.0
 27 verbose linkMans scaffold-wp-theme@0.1.0
 28 verbose rebuildBundles scaffold-wp-theme@0.1.0
-29 verbose rebuildBundles [ '.bin',
+29 verbose rebuildBundles [ '.DS_Store',
+29 verbose rebuildBundles   '.bin',
 29 verbose rebuildBundles   'async',
 29 verbose rebuildBundles   'commander',
 29 verbose rebuildBundles   'deep-extend',
