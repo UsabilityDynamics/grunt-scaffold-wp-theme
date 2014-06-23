@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 
+// Especially badass external libs.
+//var resolve = require('resolve').sync;
+//var which = require( 'which' );
+//var gruntpath = '/usr/local/bin/grunt' // resolve('grunt', {basedir: '/usr/local/bin/grunt'});
+// require( gruntpath ).cli();
+// return;
+
 var findUp = require( 'findup-sync' );
 var path = require('path');
-var spawn = require('child_process').spawn;
+//var spawn = require('child_process').spawn;
 
 // @todo Use async.auto for structure.
 var async = require( 'async' );

@@ -12,7 +12,9 @@
     "grunt-cli": "^0.1.13",
     "grunt-init": "^0.3.2",
     "load-grunt-tasks": "^0.6.0",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "resolve": "^0.7.1",
+    "which": "^1.0.5"
   },
   "preferGlobal": true,
   "publishConfig": {

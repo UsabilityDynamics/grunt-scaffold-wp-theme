@@ -7,10 +7,22 @@
  */
 module.exports = function build( grunt ) {
 
+  grunt.initConfig({
+    
+    // Read Composer File.
+    config: grunt.file.readJSON( 'package.json' ).config,
+    
+    // Non-configuration related meta
+    meta: {
+      ci: process.env.CI || process.env.CIRCLECI ? true : false,
+      environment: process.env.NODE_ENV || 'production'
+    }
+
+  });
+  
   // Require Utility Modules.
   var joinPath  = require( 'path' ).join;
   var findup    = require( 'findup-sync' );
-  var symlink   = require( 'fs' ).symlink;
 
   // Determine Paths.
   var _paths = {
@@ -23,53 +35,8 @@ module.exports = function build( grunt ) {
     config: './package.json',
     scope: 'devDependencies'
   });
-
-  grunt.initConfig({
-    
-    // Read Composer File.
-    config: grunt.file.readJSON( 'package.json' ).config,
-    
-    // Sets generic config settings, callable via grunt.config.get('meta').environment or <%= grunt.config.get("meta").environment %>
-    meta: {
-      ci: process.env.CI || process.env.CIRCLECI ? true : false,
-      environment: process.env.NODE_ENV || 'production'
-    }
-
-  });
-
   
-  // Register NPM Tasks.
-  grunt.registerTask( 'default', function() {
-
-    // grunt.task.run( 'mochaTest' );
-    
-    if( grunt.config.get( 'meta.ci' ) ) {
-      // grunt.task.run( 'test:quality' );
-    }
-    
-  });
-
-  grunt.registerTask( 'install', function() {
-    console.log( '===Install===' );
-    
-    var done = this.async();
-    
-    symlink( __dirname, '/Users/potanin/.grunt-init/wp-theme', 'dir', function( error ) {      
-      console.log( 'linked', error ? error.message : 'successfully' );      
-      done();      
-    });      
-    
-  });
-  
-  
-  grunt.registerTask( 'publish', function() {
-    console.log( '===Publish===' );
-    
-  });
-  
-  grunt.registerTask( 'prepublish', function() {
-    console.log( '===Prepublish===' );
-    
-  });
+  // Register Internal Tasks.
+  grunt.loadTasks( 'tasks' );
   
 };
