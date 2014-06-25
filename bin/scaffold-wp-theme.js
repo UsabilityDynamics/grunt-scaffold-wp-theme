@@ -1,46 +1,102 @@
 #!/usr/bin/env node
 
-// Especially badass external libs.
-//var resolve = require('resolve').sync;
-//var which = require( 'which' );
-//var gruntpath = '/usr/local/bin/grunt' // resolve('grunt', {basedir: '/usr/local/bin/grunt'});
-// require( gruntpath ).cli();
-// return;
+require( 'veneer-terminal' ).create( function scaffoldTerminal( error ) {
 
-var findUp = require( 'findup-sync' );
-var path = require('path');
-//var spawn = require('child_process').spawn;
+  var findUp = require( 'findup-sync' );
+  var path = require('path');
 
-// @todo Use async.auto for structure.
-var async = require( 'async' );
+  // Configure Terminal Settings.
+  this.set({
+    name: 'scaffold-wp-theme',
+    version: this.get( 'package.version' ),
+    description: this.get( 'package.description' ),
+    path: path.dirname( findUp( 'package.json', { cwd: __dirname } ) )
+  });  
 
-module.modulePath = path.dirname( findUp( 'package.json', { cwd: __dirname } ) );
+  // Accepted Arguments.
+  //this.option( '--path <path>', 'Path to target directory for scaffolding.', process.cwd() );
+  //this.option( '--project <project>', 'Path or URL of project.yml file.' );
+  //this.option( '--acceptance <acceptance>', 'Path or URL of acceptance.yml file.' );
+  
+  // Accepted Commands.
+  this.command( 'create', 'Create new module in current directory from scaffold.' ).action( Create.bind( this ) );
+  this.command( 'update',   'Updte existing module' ).action( Update.bind( this ) );
+  this.command( 'validate', 'Validate an existing module' ).action( Validate.bind( this ) );
 
-// console.log( module.modulePath );
-console.log( 'Installing into', process.cwd() );
-
-var init = spawn( 'grunt-init', [ module.modulePath, '--no-color' ], {
-  end: process.env,
-  cwd: process.cwd(),
-  stdio: 'inherit',
-  encoding: 'utf8'
 });
 
-init.on( 'close', function (code, signal) {
-  //  console.log('closed grunt-init');
-  
-  // Should install all modules and then run "grunt install"
-  var npm = spawn( 'npm', [  'install' ], {
-    end: process.env,
-    cwd: process.cwd(),
-    stdio: 'inherit',
-    encoding: 'utf8'
+/**
+ *
+ *
+ */
+function Validate( options ) {  
+  this.write( 'Validating ' + options.parent.path );
+}
+
+/**
+ *
+ *
+ */
+function Update( options ) {
+  this.write( 'Updating ' + options.parent.path );
+}
+
+/**
+ * Create Scaffold
+ *
+ * @todo Create options.parent.path if it does not exist.
+ */
+function Create( options ) {
+
+  var spawn = require('child_process').spawn;
+  var async = require( 'async' );
+  var self  = this;
+
+  async.auto({
+    
+    scaffold: [ function( done, report ) {
+      self.write( 'Setting up structure.' );
+      
+      spawn( 'grunt-init', [ self.get( 'path' ), '--no-color' ], {
+        end: process.env,
+        cwd: options.parent.path,
+        stdio: 'inherit',
+        encoding: 'utf8'
+      }).on( 'close', function( code, signal ) {
+        self.log( 'Wordpress Theme scaffold complete.' );        
+        done();
+      });
+            
+    } ],    
+    
+    // Should install all modules and then run "grunt install"
+    npm: [ 'scaffold', function( done, report ) {
+      self.log( 'Updating NPM...' );
+      
+      spawn( 'npm', [ 'install' ], {
+        end: process.env,
+        cwd: options.parent.path,
+        stdio: 'inherit',
+        encoding: 'utf8'
+      }).on( 'close', function() {
+        self.log( 'Node Modules installed.' );
+        done();
+      });
+        
+    }],
+    
+    // Should update composer.
+    composer: [ 'scaffold', function( done, report ) {
+      self.log( 'Updating Composer... (Not Implemented)' );
+      done();      
+    }],
+    
+    // Should initialize repository, create a GitHub Wiki and add as a submodule to static/wiki
+    github: [ 'npm', 'composer', function( done, report ) {
+      self.log( 'Setting up GitHub repository. (Not Implemented)' );
+      done();      
+    }]
+    
   });
-
-  npm.on( 'close', function() {
-    console.log( 'modules installed.' );
-  } );
   
-});
-
-// @todo All add GitHub repository initialization and Wiki subdmoule.
+}
