@@ -1,1 +1,0 @@
-Use the current set of files instead of default ones  to generate WP Theme designed for WP-Property plugin

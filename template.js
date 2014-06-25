@@ -1,10 +1,5 @@
 /*
  * Node.js Scaffolding Template
- *
- *
- * @todo After scaffolding, run "npm install" automatically.
- * @todo If GitHub repository given, attempt to create repository and commmit project after creation.
- * @todo If GitHub repository was created, create Wiki and set up as subdmodule in static/wiki.
  * 
  * @version 1.0.0
  */

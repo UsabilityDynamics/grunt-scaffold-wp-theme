@@ -1,1 +1,0 @@
-Use the current set of files to generate default WP Theme
