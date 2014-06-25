@@ -14,9 +14,9 @@ require( 'veneer-terminal' ).create( function scaffoldTerminal( error ) {
   });  
 
   // Accepted Arguments.
-  //this.option( '--path <path>', 'Path to target directory for scaffolding.', process.cwd() );
-  //this.option( '--project <project>', 'Path or URL of project.yml file.' );
-  //this.option( '--acceptance <acceptance>', 'Path or URL of acceptance.yml file.' );
+  this.option( '-d, --directory <directory>', 'Path to target directory for scaffolding.', process.cwd() );
+  this.option( '-p, --project <project>', 'Path or URL of project.yml file.' );
+  this.option( '-a, --acceptance <acceptance>', 'Path or URL of acceptance.yml file.' );
   
   // Accepted Commands.
   this.command( 'create', 'Create new module in current directory from scaffold.' ).action( Create.bind( this ) );
@@ -67,34 +67,46 @@ function Create( options ) {
         done();
       });
             
-    } ],    
-    
+    } ],
+
     // Should install all modules and then run "grunt install"
     npm: [ 'scaffold', function( done, report ) {
       self.log( 'Updating NPM...' );
       
       spawn( 'npm', [ 'install' ], {
         end: process.env,
-        cwd: options.parent.path,
+        cwd: options.parent.directory,
         stdio: 'inherit',
         encoding: 'utf8'
       }).on( 'close', function() {
-        self.log( 'Node Modules installed.' );
+        self.log( 'Modules installed.' );
         done();
       });
         
-    }],
+    }],    
     
-    // Should update composer.
-    composer: [ 'scaffold', function( done, report ) {
-      self.log( 'Updating Composer... (Not Implemented)' );
-      done();      
+    // Should update composer, but wait for NPM to finish.
+    composer: [ 'npm', 'scaffold', function( done, report ) {
+      self.log( 'Installing Composer...' );
+      
+      spawn( 'php', [ self.get( 'composerPath' ), 'install', '--prefer-source' ], {
+        end: process.env,
+        cwd: options.parent.directory,
+        stdio: 'inherit',
+        encoding: 'utf8'
+      }).on( 'close', function() {
+        self.log( 'Composer installed.' );
+        done();
+      });
+            
     }],
     
     // Should initialize repository, create a GitHub Wiki and add as a submodule to static/wiki
     github: [ 'npm', 'composer', function( done, report ) {
-      self.log( 'Setting up GitHub repository. (Not Implemented)' );
-      done();      
+      // self.log( 'Setting up GitHub repository. (Not Implemented)' );
+      
+      done();
+              
     }]
     
   });
