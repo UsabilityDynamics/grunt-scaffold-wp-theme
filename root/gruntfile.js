@@ -1,24 +1,11 @@
 /**
  * Build Theme
  *
- * @author {%= author_name %}
- * @version {%= version %}
+ * @author Usability Dynamics, Inc.
+ * @version 2.0.0
  * @param grunt
  */
-module.exports = function( grunt ) {
-
-  // Require Utility Modules.
-  var joinPath  = require( 'path' ).join;
-  var findup    = require( 'findup-sync' );
-
-  // Determine Paths.
-  var _paths = {
-    composer: findup( 'composer.json' ),
-    phpcs: findup( 'vendor/bin/phpcs' ) || findup( 'phpcs', { cwd: '/usr/bin' } ),
-    vendor: findup( 'vendor' ),
-    jsTests: findup( 'test' ),
-    staticFiles: findup( 'static' )
-  };
+module.exports = function build( grunt ) {
 
   // Automatically Load Tasks.
   require( 'load-grunt-tasks' )( grunt, {
@@ -27,132 +14,9 @@ module.exports = function( grunt ) {
     scope: 'devDependencies'
   });
 
-  grunt.initConfig({
-  
-    // Load configuration about project
-    pkg: grunt.file.readJSON( 'composer.json' ),
-    
-    uglify: {
-      'production': {
-        options: {
-          mangle: false,
-          beautify: false
-        },
-        files: {
-          'scripts/app.js':     [ 'scripts/app.dev.js' ],
-          'scripts/require.js': [ 'vendor/usabilitydynamics/lib-utility/scripts/require.js' ]
-        }
-      }
-    },
-    
-    requirejs: {
-      fooxbox: {
-        options: {
-          name: 'foobox',
-          paths: {
-            "foobox": "scripts/src/foobox.dev"
-          },
-          include: [ 'foobox' ],
-          out: 'scripts/utility/foobox.js',
-          skipModuleInsertion: true,
-          wrap: {
-            start: "define( function(require, exports, module) {",
-            end: "});"
-          }
-        }
-      }
-    },
-    
-    // Documentation
-    yuidoc: {
-      compile: {
-        name: '<%= pkg.name %>',
-        description: '<%= pkg.description %>',
-        version: '<%= pkg.version %>',
-        url: '<%= pkg.homepage %>',
-        logo: 'http://media.usabilitydynamics.com/logo.png',
-        options: {
-          paths: './',
-          outdir: 'static/codex'
-        }
-      }
-    },
-    
-    // Less Compilation
-    less: {
-      'app.css': {
-        options: {
-          yuicompress: true,
-          relativeUrls: true
-        },
-        files: {
-          'styles/app.css': [ 'styles/src/app.less' ]
-        }
-      },
-      'app.dev.css': {
-        options: {
-          relativeUrls: true
-        },
-        files: {
-          'styles/app.dev.css': [ 'styles/src/app.less' ]
-        }
-      },
-      'editor-style.dev.css': {
-        options: {
-          yuicompress: false,
-          relativeUrls: true
-        },
-        files: {
-          'styles/editor-style.dev.css': [ 'styles/src/editor-style.less' ]
-        }
-      },
-      'editor-style.css': {
-        options: {
-          yuicompress: true,
-          relativeUrls: true
-        },
-        files: {
-          'styles/editor-style.css': [ 'styles/src/editor-style.less' ]
-        }
-      }
-    },
-    
-    // Color Schemas
-    'color-default': {
-      options: {
-        yuicompress: true,
-        relativeUrls: true
-      },
-      files: {
-        'styles/default.css': [ 'styles/src/colors/default.less' ]
-      }
-    },
+  grunt.initConfig( {
 
-    // Watcher
-    watch: {
-      options: {
-        interval: 1000,
-        debounceDelay: 500
-      },
-      styles: {
-        files: [
-          'gruntfile.js', 'styles/src/*.*'
-        ],
-        tasks: [ 'less' ]
-      },
-      scripts: {
-        files: [
-          'gruntfile.js', 'scripts/src/*.js'
-        ],
-        tasks: [ 'uglify', 'requirejs' ]
-      },
-      docs: {
-        files: [
-          'styles/app.*.css', 'composer.json', 'readme.md'
-        ],
-        tasks: [ 'markdown' ]
-      }
-    },
+    package: grunt.file.readJSON( 'composer.json' ),
     
     markdown: {
       all: {
@@ -174,23 +38,184 @@ module.exports = function( grunt ) {
           }
         }
       }
+    },
+
+    // Compile LESS
+    less: {
+      production: {
+        options: {
+          yuicompress: true,
+          relativeUrls: true
+        },
+        files: {}
+      },
+      development: {
+        options: {
+          relativeUrls: true
+        },
+        files: {}
+      }
+    },
+
+    watch: {
+      options: {
+        interval: 100,
+        debounceDelay: 500
+      },
+      less: {
+        files: [
+          'static/styles/src/*.*'
+        ],
+        tasks: [ 'less' ]
+      },
+      js: {
+        files: [
+          'static/scripts/src/*.*'
+        ],
+        tasks: [ 'uglify' ]
+      }
+    },
+
+    uglify: {
+      production: {
+        options: {
+          mangle: false,
+          beautify: false
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'static/scripts/src',
+            src: [ '*.js' ],
+            dest: 'static/scripts'
+          }
+        ]
+      },
+      staging: {
+        options: {
+          mangle: false,
+          beautify: true
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'static/scripts/src',
+            src: [ '*.js' ],
+            dest: 'static/scripts'
+          }
+        ]
+      }
+    },
+
+    clean: {
+      update: [
+        "composer.lock"
+      ],
+      all: [
+        "vendor",
+        "composer.lock"
+      ]
+    },
+
+    shell: {
+      /**
+       * Make Production Build and create new tag ( release ) on Github.
+       */
+      build: {
+        command: function( tag ) {
+          return [
+            'sh build.sh ' + tag
+          ].join( ' && ' );
+        },
+        options: {
+          encoding: 'utf8',
+          stderr: true,
+          stdout: true
+        }
+      },
+      /**
+       * Runs PHPUnit test, creates code coverage and sends it to Scrutinizer
+       */
+      coverageScrutinizer: {
+        command: [
+          'grunt phpunit:circleci --coverage-clover=coverage.clover',
+          'wget https://scrutinizer-ci.com/ocular.phar',
+          'php ocular.phar code-coverage:upload --format=php-clover coverage.clover'
+        ].join( ' && ' ),
+        options: {
+          encoding: 'utf8',
+          stderr: true,
+          stdout: true
+        }
+      },
+      /**
+       * Runs PHPUnit test, creates code coverage and sends it to Code Climate
+       */
+      coverageCodeClimate: {
+        command: [
+          'grunt phpunit:circleci --coverage-clover build/logs/clover.xml',
+          'CODECLIMATE_REPO_TOKEN='+ process.env.CODECLIMATE_REPO_TOKEN + ' ./vendor/bin/test-reporter'
+        ].join( ' && ' ),
+        options: {
+          encoding: 'utf8',
+          stderr: true,
+          stdout: true
+        }
+      },
+      /**
+       * Composer Install
+       */
+      install: {
+        command: function( env ) {
+          return [
+            'composer install --no-dev',
+            'rm -rf ./vendor/composer/installers',
+            'find ./vendor -name .git -exec rm -rf \'{}\' \\;',
+            'find ./vendor -name .svn -exec rm -rf \'{}\' \\;',
+          ].join( ' && ' );
+        },
+        options: {
+          encoding: 'utf8',
+          stderr: true,
+          stdout: true
+        }
+      }
+    },
+    
+    // Runs PHPUnit Tests
+    phpunit: {
+      classes: {},
+      options: {
+        bin: './vendor/bin/phpunit',
+      },
+      local: {
+        configuration: './test/php/phpunit.xml'
+      },
+      circleci: {
+        configuration: './test/php/phpunit-circle.xml'
+      }
     }
 
   });
+
+  // Register tasks
+  grunt.registerTask( 'default', [ 'markdown', 'less' , 'uglify' ] );
   
-  // Build Assets
-  grunt.registerTask( 'default', [ 'yuidoc', 'uglify', 'markdown', 'less', 'requirejs' ] );
-
-  // Install environment
-  grunt.registerTask( 'install', [ 'yuidoc', 'uglify', 'markdown', 'less', 'requirejs' ] );
-
-  // Update Environment
-  grunt.registerTask( 'update', [ 'yuidoc', 'uglify', 'markdown', 'less', 'requirejs' ] );
-
-  // Prepare distribution
-  grunt.registerTask( 'dist', [ 'yuidoc', 'uglify', 'markdown', 'less', 'requirejs' ] );
-
-  // Update Documentation
-  grunt.registerTask( 'doc', [ 'yuidoc', 'markdown' ] );
+  // Install Environment
+  grunt.registerTask( 'install', [ "clean:all", "shell:install" ] );
+  
+  // Run default Tests
+  grunt.registerTask( 'localtest', [ 'phpunit:local' ] );
+  grunt.registerTask( 'test', [ 'phpunit:circleci' ] );
+  
+  // Run coverage tests
+  grunt.registerTask( 'testscrutinizer', [ 'shell:coverageScrutinizer' ] );
+  grunt.registerTask( 'testcodeclimate', [ 'shell:coverageCodeClimate' ] );
+  
+  // Make Production Build and create new tag ( release ) on Github.
+  grunt.registerTask( 'build', 'Run all my build tasks.', function( tag ) {
+    if ( tag == null ) grunt.warn( 'Release tag must be specified, like build:1.0.0' );
+    grunt.task.run( 'shell:build:' + tag );
+  });
 
 };

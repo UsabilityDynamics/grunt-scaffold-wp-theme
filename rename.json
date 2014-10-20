@@ -1,5 +1,3 @@
 {
-  "bin/name.js": "bin/{%= name %}.js",
-  "test/name.js": "test/{%= name %}.js",
-  "lib/name.js": "lib/{%= name %}.js"
+  "lib/classes/class-name-bootstrap.php": "lib/classes/class-{%= bootstrap_class %}.php"
 }

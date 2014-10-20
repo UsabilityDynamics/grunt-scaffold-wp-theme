@@ -1,0 +1,8 @@
+objectives:
+  
+features:
+    
+api:
+  - "grunt-scaffold-wp-theme init - Init scaffolding."
+  - "grunt-scaffold-wp-theme validate - Try to validate project.yml."
+  - "grunt-scaffold-wp-theme update - Update tests and configration files."

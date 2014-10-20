@@ -1,7 +1,7 @@
 {
   "name": "grunt-scaffold-wp-theme",
-  "version": "0.1.0",
-  "description": "> Create a WordPress Theme with.",
+  "version": "0.2.0",
+  "description": "> Create a WordPress Theme.",
   "main": "gruntfile.js",
   "dependencies": {
     "async": "^0.9.0",

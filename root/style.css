@@ -1,17 +1,12 @@
 /**
  * Theme Name: {%= name %}
  * Description: {%= description %}
- * Theme URI: {%= theme_url %}
- * Author: Usability Dynamics, Inc.
+ * Theme URI: {%= homepage %}
+ * Author: {%= author_name %}
  * Author URI: {%= author_url %}
  * Version: {%= version %}
- * Tags: one-column,two-column,translation-ready,responsive,wp-property
- * Text Domain: {%= short_name %}
+ * Text Domain: {%= text_domain %}
  *
- * Copyright: {%= copyright %}
- * License: {%= license %}
- * License URI: {%= license_url %}
- *
- * This file is for WordPress theme recognition only, the actual styles may be found in the "styles" directory.
+ * This file is for WordPress theme recognition only, the actual styles may be found in the "static/styles" directory.
  *
  */
