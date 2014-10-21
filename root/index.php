@@ -8,5 +8,5 @@
  * e.g., it puts together the home page when no home.php file exists.
  *
  */
-
+?>
 index.php
