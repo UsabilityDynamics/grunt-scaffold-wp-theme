@@ -42,4 +42,4 @@ module.exports = function build( grunt ) {
 };
 
 // Add prototype methods.
-module.exports = require( 'utils-merge' )( module.exports, require( './lib/scaffold-wp-theme.js' ) );
+module.exports = require( 'utils-merge' )( module.exports, require( './bin/scaffold-wp-theme.js' ) );
