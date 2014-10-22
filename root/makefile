@@ -8,12 +8,12 @@ NAME = {%= name %}
 default:
 	npm install
   
-# Build project
+# Install project
 # - Removes composer.lock, vendor
 # - Runs composer install --no-dev
 # - Removes extra files.
-build:
-	echo Building $(NAME).
+install:
+	echo Installing $(NAME).
 	make default
   grunt install
 

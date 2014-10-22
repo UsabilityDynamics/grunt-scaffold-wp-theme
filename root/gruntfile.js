@@ -167,12 +167,18 @@ module.exports = function build( grunt ) {
        */
       install: {
         command: function( env ) {
-          return [
-            "composer install --no-dev",
-            "rm -rf ./vendor/composer/installers",
-            "find ./vendor -name .git -exec rm -rf '{}' \;",
-            "find ./vendor -name .svn -exec rm -rf '{}' \;",
-          ].join( ' && ' );
+          if( typeof env !== 'undefined' && env == 'dev' ) {
+            return [
+              "composer install"
+            ].join( ' && ' );
+          } else {
+            return [
+              "composer install --no-dev",
+              "rm -rf ./vendor/composer/installers",
+              "find ./vendor -name .git -exec rm -rf '{}' \;",
+              "find ./vendor -name .svn -exec rm -rf '{}' \;",
+            ].join( ' && ' );
+          }
         },
         options: {
           encoding: 'utf8',
@@ -201,9 +207,6 @@ module.exports = function build( grunt ) {
   // Register tasks
   grunt.registerTask( 'default', [ 'markdown', 'less' , 'uglify' ] );
   
-  // Install Environment
-  grunt.registerTask( 'install', [ "clean:all", "shell:install" ] );
-  
   // Run default Tests
   grunt.registerTask( 'localtest', [ 'phpunit:local' ] );
   grunt.registerTask( 'test', [ 'phpunit:circleci' ] );
@@ -211,6 +214,12 @@ module.exports = function build( grunt ) {
   // Run coverage tests
   grunt.registerTask( 'testscrutinizer', [ 'shell:coverageScrutinizer' ] );
   grunt.registerTask( 'testcodeclimate', [ 'shell:coverageCodeClimate' ] );
+  
+  // Install Environment
+  grunt.registerTask( 'install', 'Run all my install tasks.', function( env ) {
+    grunt.task.run( 'clean:all' );
+    grunt.task.run( 'shell:install:' + env );
+  });
   
   // Make Production Build and create new tag ( release ) on Github.
   grunt.registerTask( 'build', 'Run all my build tasks.', function( tag ) {
