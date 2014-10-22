@@ -6,6 +6,8 @@
  * Author URI: {%= author_url %}
  * Version: {%= version %}
  * Text Domain: {%= text_domain %}
+ * GitHub Theme URI: https://github.com/{%= github_vendor %}/{%= github_name %}
+ * GitHub Branch: master
  *
  * This file is for WordPress theme recognition only, the actual styles may be found in the "static/styles" directory.
  *

@@ -8,7 +8,7 @@ namespace {%= namespace %} {
 
   if( !class_exists( '{%= namespace %}\{%= bootstrap_class %}' ) ) {
 
-    final class {%= bootstrap_class %} extends \UsabilityDynamics\WP_Theme\Bootstrap {
+    final class {%= bootstrap_class %} extends \UsabilityDynamics\WP\Bootstrap_Theme {
       
       /**
        * Singleton Instance Reference.
@@ -26,19 +26,8 @@ namespace {%= namespace %} {
       public function init() {
         
         //** Here is we go. */
+        
       }
-      
-      /**
-       * Plugin Activation
-       *
-       */
-      public function activate() {}
-      
-      /**
-       * Plugin Deactivation
-       *
-       */
-      public function deactivate() {}
 
     }
 
