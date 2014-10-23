@@ -27,9 +27,8 @@
 #
 # Features:
 # - The current script generates new Tag on GitHub for your build (Distributive).
-# - It can use the latest commit log for creating new tag. Log message should 
-# contain [release:{tag}] shortcode
-# - circleci compatible.
+# - circleci compatible. It can use the latest commit log for creating new tag via CircleCI. 
+# Log message should contain [release:{tag}] shortcode
 #
 ############################################################################################
 #
@@ -42,7 +41,7 @@
 # sh build.sh 1.2.3
 #
 # Run grunt task ( see information about gruntfile.js below )
-# grunt build:1.2.3
+# grunt release:1.2.3
 #
 ############################################################################################
 #
@@ -54,9 +53,10 @@
 #   production:
 #     branch: master
 #       commands:
-#         - sh <(curl -s https://url-do-a-gist-file-with-sh-commands.sh)
+#         - sh build.sh
 #
 # Notes: 
+# - Log ( commit ) message should contain [release:{tag}] shortcode for running script.
 # - script will be triggered only on successful (green) build for 'master' branch in 
 # current example.
 # - in random cases gist file is not available on curl request, I suggest to 
@@ -69,12 +69,12 @@
 #
 # Gruntfile.js
 #
-# module.exports = function build( grunt ) {
+# module.exports = function release( grunt ) {
 #
 #  grunt.initConfig( {
 #
 #    shell: {
-#      build: {
+#      release: {
 #        command: function( tag ) {
 #          return 'sh build.sh ' + tag;
 #        },
@@ -88,9 +88,9 @@
 #     
 #   } );
 #
-#   grunt.registerTask( 'build', 'Run build tasks.', function( tag ) {
-#     if ( tag == null ) grunt.warn( 'Build tag must be specified, like build:1.0.0' );
-#     grunt.task.run( 'shell:build:' + tag );
+#   grunt.registerTask( 'release', 'Run release tasks.', function( tag ) {
+#     if ( tag == null ) grunt.warn( 'Release tag must be specified, like release:1.0.0' );
+#     grunt.task.run( 'shell:release:' + tag );
 #   });
 #
 # }
@@ -169,6 +169,8 @@ else
   git branch --set-upstream-to=origin/temp-branch-$RELEASE_VERSION temp-branch-$RELEASE_VERSION
   echo "---"
 
+  # It's used only by CircleCi. Should not be called directly.
+  #
   #echo "Set configuration to proceed"
   #git config --global push.default simple
   #git config --global user.email "$( git log -1 --pretty=%an )"
