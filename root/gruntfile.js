@@ -217,6 +217,7 @@ module.exports = function build( grunt ) {
   
   // Install Environment
   grunt.registerTask( 'install', 'Run all my install tasks.', function( env ) {
+    if ( env == null ) env = 'no-dev';
     grunt.task.run( 'clean:all' );
     grunt.task.run( 'shell:install:' + env );
   });
