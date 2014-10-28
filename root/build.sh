@@ -183,8 +183,14 @@ else
   git rm --cached coverage.clover
   git rm --cached ocular.phar
   git rm -r --cached build
-  echo "Be sure we do not add node files"
+  echo "Be sure we do not add node and other files needed only for development"
   git rm -r --cached node_modules
+  git rm -r --cached circle.yml
+  git rm -r --cached build.sh
+  git rm -r --cached gruntfile.js
+  git rm -r --cached makefile
+  git rm -r --cached package.json
+  git rm -r --cached test
   echo "Be sure we do not add .git directories"
   find ./vendor -name .git -exec rm -rf '{}' \;
   echo "Be sure we do not add .svn directories"
