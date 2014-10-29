@@ -154,14 +154,13 @@ else
   git checkout $CIRCLE_BRANCH
   echo "---"
   
-  echo "Clean up structure ( remove composer relations )"
-  rm -rf composer.lock
-  rm -rf vendor
+  #echo "Clean up structure ( remove composer relations )"
+  #rm -rf composer.lock
+  #rm -rf vendor
   
-  echo "Running: composer install --no-dev --no-interaction"
-  composer install --no-dev --no-interaction --quiet
-  rm -rf vendor/composer/installers
-  echo "---"
+  #echo "Running: composer install --no-dev --no-interaction"
+  #composer install --no-dev --no-interaction --quiet
+  #echo "---"
   
   echo "Create local and remote temp branch temp-automatic-branch-"$RELEASE_VERSION
   git checkout -b temp-branch-$RELEASE_VERSION
@@ -177,24 +176,26 @@ else
   #git config --global user.name "$( git log -1 --pretty=%ae )"
   #echo "---"
 
-  echo "Add/remove files"
-  git add --all
-  echo "Exclude circleci specific files and logs if they exist"
-  git rm --cached coverage.clover
-  git rm --cached ocular.phar
-  git rm -r --cached build
-  echo "Be sure we do not add node and other files needed only for development"
-  git rm -r --cached node_modules
-  git rm -r --cached circle.yml
-  git rm -r --cached build.sh
-  git rm -r --cached gruntfile.js
-  git rm -r --cached makefile
-  git rm -r --cached package.json
-  git rm -r --cached test
+  echo "Be sure we do not add node and other specific files needed only for development"
+  rm -rf vendor/composer/installers
+  rm -rf coverage.clover
+  rm -rf ocular.phar
+  rm -rf build
+  rm -rf node_modules
+  rm -rf composer.lock
+  rm -rf .scrutinizer.yml
+  rm -rf circle.yml
+  rm -rf build.sh
+  rm -rf gruntfile.js
+  rm -rf makefile
+  rm -rf package.json
+  rm -rf test
   echo "Be sure we do not add .git directories"
   find ./vendor -name .git -exec rm -rf '{}' \;
   echo "Be sure we do not add .svn directories"
   find ./vendor -name .svn -exec rm -rf '{}' \;
+  echo "Git Add"
+  git add --all
   echo "Be sure we added vendor directory"
   git add -f vendor
   echo "---"
