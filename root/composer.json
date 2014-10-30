@@ -20,7 +20,7 @@
   "require": {
     "php": ">=5.3",
     "composer/installers": "v1.0.18",
-    "usabilitydynamics/lib-wp-bootstrap": "~1.0"
+    "usabilitydynamics/lib-wp-bootstrap": "*"
   },
   "require-dev": {
     "usabilitydynamics/lib-wp-phpunit": "~0.2",
