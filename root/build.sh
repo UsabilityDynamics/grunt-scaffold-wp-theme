@@ -175,7 +175,11 @@ else
   #git config --global user.email "$( git log -1 --pretty=%an )"
   #git config --global user.name "$( git log -1 --pretty=%ae )"
   #echo "---"
-
+  
+  echo "Install Node modules to minify composer.json"
+  npm install
+  grunt json-minify
+  
   echo "Be sure we do not add node and other specific files needed only for development"
   rm -rf vendor/composer/installers
   rm -rf coverage.clover
